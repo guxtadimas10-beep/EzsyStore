@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ezsy Store - Email Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <i class="fas fa-envelope-circle-check"></i>
+                <h1>Ezsy Mail</h1>
+            </div>
+            <p class="tagline">Email Generator Premium</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-item active" onclick="showSection('dashboard')">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#generator" class="nav-item" onclick="showSection('generator')">
+                <i class="fas fa-wand-magic-sparkles"></i>
+                <span>Gerar Emails</span>
+            </a>
+            <a href="#meus-emails" class="nav-item" onclick="showSection('meus-emails')">
+                <i class="fas fa-inbox"></i>
+                <span>Meus Emails</span>
+            </a>
+            <a href="#suporte" class="nav-item" onclick="showSection('suporte')">
+                <i class="fas fa-headset"></i>
+                <span>Suporte</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <p class="user-name">Seu Perfil</p>
+                    <p class="user-email">usuario@ezsy.shop</p>
+                </div>
+            </div>
+            <button class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Procurar emails...">
+            </div>
+            <div class="top-bar-icons">
+                <button class="icon-btn" title="Notificações">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <button class="icon-btn" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Sections -->
+        <div class="content-wrapper">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="section-header">
+                    <h2>Dashboard</h2>
+                    <p>Bem-vindo ao seu painel de controle</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon emails">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Total de Emails</p>
+                            <p class="stat-value" id="stat-total">0</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon active">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Emails Ativos</p>
+                            <p class="stat-value" id="stat-active">0</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon usage">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Uso de Armazenamento</p>
+                            <p class="stat-value">0%</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon premium">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label">Plano</p>
+                            <p class="stat-value">Premium</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recent-emails">
+                    <h3>Emails Recentes</h3>
+                    <div class="email-list" id="recent-list">
+                        <p class="empty-message">Nenhum email criado ainda</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Generator Section -->
+            <section id="generator" class="section">
+                <div class="section-header">
+                    <h2>Gerador de Emails</h2>
+                    <p>Crie quantos emails quiser com @ezsy.shop</p>
+                </div>
+
+                <div class="generator-container">
+                    <div class="generator-card">
+                        <h3>Criar Novo Email</h3>
+                        
+                        <div class="form-group">
+                            <label>Prefixo do Email</label>
+                            <div class="input-wrapper">
+                                <input 
+                                    type="text" 
+                                    id="emailInput" 
+                                    placeholder="ex: usuario, trabalho, vendas"
+                                    maxlength="30"
+                                >
+                                <span class="email-domain">@ezsy.shop</span>
+                            </div>
+                            <small>Apenas letras, números, ponto, hífen e underscore</small>
+                        </div>
+
+                        <button class="btn-generate" onclick="gerarEmail()">
+                            <i class="fas fa-sparkles"></i>
+                            Gerar Email
+                        </button>
+
+                        <div id="emailResult" class="email-result" style="display: none;">
+                            <h4>Email Gerado com Sucesso!</h4>
+                            <div class="result-box">
+                                <p id="emailGerado"></p>
+                                <button class="btn-copy" onclick="copiarEmail()" title="Copiar email">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="result-actions">
+                                <button class="btn-secondary" onclick="document.getElementById('emailInput').focus()">
+                                    Gerar Outro
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="generator-info">
+                        <div class="info-box">
+                            <i class="fas fa-info-circle"></i>
+                            <div>
+                                <h4>Dicas</h4>
+                                <ul>
+                                    <li>Use prefixos descritivos e fáceis de lembrar</li>
+                                    <li>Você pode criar emails para diferentes propósitos</li>
+                                    <li>Todos os seus emails são permanentes e seguros</li>
+                                    <li>Acesse seus emails de qualquer dispositivo</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <h4>Segurança</h4>
+                                <ul>
+                                    <li>Criptografia de ponta a ponta</li>
+                                    <li>Proteção contra spam</li>
+                                    <li>Backup automático de dados</li>
+                                    <li>Suporte 24/7</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Meus Emails Section -->
+            <section id="meus-emails" class="section">
+                <div class="section-header">
+                    <h2>Meus Emails</h2>
+                    <p>Gerenciar seus emails criados</p>
+                </div>
+
+                <div class="emails-container">
+                    <div class="emails-controls">
+                        <input type="text" id="searchEmails" placeholder="Procurar emails..." class="search-input">
+                        <button class="btn-secondary" onclick="limparEmails()">
+                            <i class="fas fa-trash"></i>
+                            Limpar Histórico
+                        </button>
+                    </div>
+
+                    <div class="email-list-container">
+                        <table class="email-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Data Criação</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="emailsTable">
+                                <tr class="empty-row">
+                                    <td colspan="4">Nenhum email criado ainda</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Suporte Section -->
+            <section id="suporte" class="section">
+                <div class="section-header">
+                    <h2>Suporte</h2>
+                    <p>Precisa de ajuda? Estamos aqui para você</p>
+                </div>
+
+                <div class="support-container">
+                    <div class="faq-section">
+                        <h3>Perguntas Frequentes</h3>
+                        
+                        <div class="faq-item">
+                            <h4>Como criar um email?</h4>
+                            <p>Basta digitar o prefixo desejado na seção "Gerar Emails" e clicar em "Gerar Email". Seu novo email será criado instantaneamente!</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>Posso criar quantos emails quiser?</h4>
+                            <p>Sim! No plano Premium você pode criar quantos emails quiser sem limitações.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>Meus emails são seguros?</h4>
+                            <p>Seus emails são protegidos com criptografia de ponta a ponta e backup automático diário.</p>
+                        </div>
+
+                        <div class="faq-item">
+                            <h4>Como posso recuperar um email deletado?</h4>
+                            <p>Entre em contato com nosso suporte. Mantemos backup de até 30 dias.</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-section">
+                        <h3>Entre em Contato</h3>
+                        <div class="contact-form">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" placeholder="Seu nome">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" placeholder="seu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Mensagem</label>
+                                <textarea placeholder="Descreva sua dúvida..." rows="5"></textarea>
+                            </div>
+                            <button class="btn-generate">Enviar Mensagem</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
